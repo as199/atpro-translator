@@ -14,7 +14,26 @@ composer require atpro/translator
 
 ## Configuration
 
-create a new object TranslateService and access to the method translate
+add in providers for  your config/app.php file
+
+'providers' => [
+
+        \Atpro\Translator\AtporServiceProvider::class,
+    ],
 
 ## commands
+
+Run the command in terminal 
+
+php artisan atpro:translate 
+
+click in enter
+
+Example usage:
+1. php artisan atpro:translate  and click enter 
+2. --> Your started language ? 
+en
+3. --> Yours translated list language seperated with commas (,) example: fr,es ... ?
+fr,it,es
+4. Click enter and wait for translated language
 
