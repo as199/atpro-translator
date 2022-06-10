@@ -46,7 +46,8 @@ class AtproTranslateService
             foreach($scandir as $fichier){
                 if($fichier != '.' and $fichier != '..'){
                     $array = require $directoryName.'\\'.$fichier;
-                    foreach ($array as $key => $value) {
+                    foreach ($array as $key => $value)
+                    {
                         if (is_array($value))
                         {
                             foreach ($value as $keyword => $item) {
@@ -88,6 +89,7 @@ class AtproTranslateService
             mkdir($directoryName);
         }
     }
+
 
     /**
      * @param string $fileName
