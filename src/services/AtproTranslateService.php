@@ -36,7 +36,7 @@ class AtproTranslateService
     public function translate(string $from, array $to): void
     {
         $subdirectoryName = base_path(self::LANG_DIRECTORY);
-        (new Filesystem)->copyDirectory(base_path(self::LANG_DIRECTORY.$from), base_path(self::TEST_DIRECTORY));
+        (new Filesystem)->copyDirectory(base_path(self::LANG_DIRECTORY.DIRECTORY_SEPARATOR.$from), base_path(self::TEST_DIRECTORY));
         $directoryName = base_path(self::TEST_DIRECTORY);
         foreach ($to as $lang) {
             $this->translator->setSource($from);
