@@ -2,9 +2,9 @@
 
 namespace Atpro\Translator\Console;
 
-use Atpro\Translator\services\AtproTranlatorViewService;
-use Atpro\Translator\services\AtproTranslateService;
-use ErrorException;
+use Atpro\Translator\App\Http\Controllers\Controller;
+use Atpro\Translator\App\Models\AtproLanguages;
+use Atpro\Translator\services\AtproTranslatorViewService;
 use Illuminate\Console\Command;
 
 class ViewTranslatorCommand extends Command
@@ -37,15 +37,17 @@ class ViewTranslatorCommand extends Command
      * Execute the console command.
      *
      * @return void
-     * @throws ErrorException
      */
     public function handle(): void
     {
         $input['to'] = $this->ask('Yours languages seperated with commas (,) example: fr,es ... ?');
         $to = explode(',',$input['to']);
-        $atproTranslateViewService = new AtproTranlatorViewService();
+        $atproTranslateViewService = new AtproLanguages();
         $this->info('Loading ...');
-        $atproTranslateViewService->saveLanguages($to);
+        foreach ($to as $item) {
+            $atproTranslateViewService->create(['code'=>$item]);
+        }
+
         $this->info('Files saved added successfully');
 
     }

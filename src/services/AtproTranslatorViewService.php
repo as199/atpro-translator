@@ -4,7 +4,7 @@ namespace Atpro\Translator\services;
 
 use Illuminate\Support\Facades\Session;
 
-class AtproTranlatorViewService
+class AtproTranslatorViewService
 {
     public function saveLanguages(array $languages): void
     {

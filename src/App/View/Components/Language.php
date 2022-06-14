@@ -2,14 +2,16 @@
 
 namespace Atpro\Translator\App\View\Components;
 
+use Atpro\Translator\App\Models\AtproLanguages;
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 
 class Language extends Component
 {
-    public string $languages;
+    public array $languages;
+    public Collection $data;
     /**
      * Create a new component instance.
      *
@@ -17,7 +19,9 @@ class Language extends Component
      */
     public function __construct()
     {
-        $this->languages = $this->getLanguages(Session::get("languages"));
+
+        $this->data = AtproLanguages::all();
+        $this->languages = $this->getLanguage();
     }
 
     /**
@@ -30,20 +34,17 @@ class Language extends Component
         return view('atpro::components.language');
     }
 
-    /**
-     * @param array $datas
-     * @return array
-     */
-    private function getLanguages(array $datas): array
+    public function getLanguage(): array
     {
-        $count = 0;
-        $result = [];
-        foreach ($datas as  $item) {
-
-            $result[$count]['code'] = $item;
-            $result[$count]['lang'] = $this->getLanguageName($item);
-            $result[$count]['icon'] = $this->getIcon($item);
-       }
+        $i = 0;
+        $languages = [];
+        foreach($this->data as  $value){
+            $languages[$i]['code'] = $value;
+            $languages[$i]['icon'] = $this->getIcon($value);
+            $languages[$i]['name'] = $this->getLanguageName($value);
+            $i++;
+        }
+        return $languages;
     }
 
     private function getIcon(string $code): string
