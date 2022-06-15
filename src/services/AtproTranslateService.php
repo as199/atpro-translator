@@ -116,6 +116,9 @@ class AtproTranslateService
         if(str_contains($chaine, ":value")){
             $chaine = str_replace(":value",  ':v', $chaine);
         }
+        if(str_contains($chaine, "_MENU_")){
+            $chaine = str_replace(":menu",  ':v', $chaine);
+        }
         if(str_contains($chaine, ":min")){
             $chaine = str_replace(":min",  ':mn', $chaine);
         }
@@ -162,6 +165,9 @@ class AtproTranslateService
         }
         if(str_contains($chaine, ":v")){
             $chaine = str_replace(":v",  ':value ', $chaine);
+        }
+        if(str_contains($chaine, ":menu")){
+            $chaine = str_replace(":menu",  '_MENU_', $chaine);
         }
         if(str_contains($chaine, ":mn")){
             $chaine = str_replace(":mn",  ':min ', $chaine);
