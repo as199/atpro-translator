@@ -19,6 +19,7 @@ class AtproTranslateMiddleware
      */
     public function handle(Request $request, Closure $next): Response|RedirectResponse
     {
+
         if (!Session::has("lang") || Session::get("lang") == null) {
             Session::put("lang", "en");
             Session::put('country', 'English');

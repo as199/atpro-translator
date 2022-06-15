@@ -23,20 +23,12 @@ class Controller extends BaseController
     {
 
         $lang = $request->get('lang');
+
         Session::put('lang', $lang);
         Session::put('country', $this->getCountry($lang));
+        \session(['test'=>'assane']);
         App::setLocale($lang);
         return back();
-    }
-    public function atproSaveTranslate( array $data): RedirectResponse
-    {
-        Session::put('languages', $data);
-        return back();
-    }
-
-    public function getAtproTranslate(): RedirectResponse
-    {
-        dd(Session::get('languages'));
     }
 
     /**

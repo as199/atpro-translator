@@ -42,11 +42,13 @@ class ViewTranslatorCommand extends Command
     {
         $input['to'] = $this->ask('Yours languages seperated with commas (,) example: fr,es ... ?');
         $to = explode(',',$input['to']);
-        $atproTranslateViewService = new AtproLanguages();
+        $atproTranslate = new AtproLanguages();
         $this->info('Loading ...');
         foreach ($to as $item) {
-            $atproTranslateViewService->create(['code'=>$item]);
+            $atproTranslate->create(['code'=>$item]);
         }
+        $atproTranslateViewService = new AtproTranslatorViewService();
+        $atproTranslateViewService->createView();
 
         $this->info('Files saved added successfully');
 
