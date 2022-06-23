@@ -38,7 +38,7 @@ php artisan vendor:publish
 publish `AtproServiceProvider`.
 ## Usage
 
-Run the command in terminal 
+Run the command in terminal :
 
 ```bash
     php artisan atpro:translate 
