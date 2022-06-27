@@ -44,7 +44,7 @@ class AtporServiceProvider extends ServiceProvider implements DeferrableProvider
     }
     private function clonePublish(): array
     {
-        if(! (new Filesystem)->exists(base_path('routes/atpro-translate.php')) ){
+        if(! (new Filesystem)->exists(base_path('routes/atpro-translate.php')) && (new Filesystem)->exists(app_path('Http/Middleware/AtproTranslateMiddleware.php')) ){
             $content = file_get_contents(base_path('routes/web.php'));
             $content .= "\n\n\n\n\n";
             $content .= "require __DIR__.'/atpro-translate.php';";
