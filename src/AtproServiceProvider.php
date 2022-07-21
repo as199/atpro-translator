@@ -7,7 +7,7 @@ use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 
-class AtporServiceProvider extends ServiceProvider implements DeferrableProvider
+class AtproServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Bootstrap any application services.

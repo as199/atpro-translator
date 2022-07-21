@@ -23,7 +23,7 @@ After installing the `Atpro-translator` library, register the  `\Atpro\Translato
 ``` php
 'providers' => [
 
-        \Atpro\Translator\AtporServiceProvider::class,
+        \Atpro\Translator\AtproServiceProvider::class,
     ],
 ```
 Also, register the middleware in web middleware groups by simply adding the middleware class :
@@ -74,7 +74,7 @@ Run the command in terminal
    `fr,it,es`
 3. Click enter and wait for generate views translate
 
-It will generates a middleware, in controller, a routes file and a component containing the different options according to the chosen languages
+It will generate a middleware, in controller, a routes file and a component containing the different options according to the chosen languages
 
 You will also have a new component `<x-atpro::language> </x-atpro::language>`. You can use it in views.
 
