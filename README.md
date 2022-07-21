@@ -18,7 +18,7 @@ To get started with Atpro-translator, use Composer to add the package to your pr
 ```
 ## Configuration
 
-After installing the `Atpro-translator` library, register the  `\Atpro\Translator\AtporServiceProvider::class` in your `config/app.php` configuration file:
+After installing the `Atpro-translator` library, register the  `\Atpro\Translator\AtproServiceProvider::class` in your `config/app.php` configuration file:
 
 ``` php
 'providers' => [
