@@ -13,14 +13,14 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected string $signature = 'atpro:translate';
+    protected  $signature = 'atpro:translate';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected string $description = 'This artisan command is used to translate lang in laravel.';
+    protected  $description = 'This artisan command is used to translate lang in laravel.';
 
     /**
      * Create a new command instance.

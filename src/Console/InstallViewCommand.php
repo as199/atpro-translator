@@ -15,14 +15,14 @@ class InstallViewCommand extends Command
      *
      * @var string
      */
-    protected string $signature = 'atpro:generate-view-translate';
+    protected  $signature = 'atpro:generate-view-translate';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected string $description = 'This artisan command is used to generate components and view translations.';
+    protected  $description = 'This artisan command is used to generate components and view translations.';
 
     /**
      * Create a new command instance.
