@@ -79,6 +79,118 @@ class AtproTranslateService
         }
     }
 
+    /***
+     * This translates a multi-associative array of data from a language to another
+     * @param string $from the start language
+     * @param array $to the arrival language
+     * @param array $files the arrival language
+     * @return void
+     * @throws ErrorException
+     * @example $tr->translate('./lang/en','./lang', $from, $to)
+     * @ $array the associative array
+     */
+    public function translateList(string $from, array $to, array $listes): void
+    {
+        $subdirectoryName = base_path(self::LANG_DIRECTORY);
+        (new Filesystem)->copyDirectory(base_path(self::LANG_DIRECTORY.DIRECTORY_SEPARATOR.$from), base_path(self::TEST_DIRECTORY));
+        $directoryName = base_path(self::TEST_DIRECTORY);
+        foreach ($to as $lang) {
+            $this->translator->setSource($from);
+            $this->translator->setTarget($lang);
+            $data = [];
+            $scandir = scandir($directoryName);
+            foreach($listes as $fichier){
+                if($fichier != '.' and $fichier != '..'){
+                    $array = require $directoryName.'\\'.$fichier;
+                    foreach ($array as $key => $value)
+                    {
+                        if (is_array($value))
+                        {
+                            foreach ($value as $keyword => $item) {
+                                if(is_array($item))
+                                {
+                                    foreach ($item as $keys => $val){
+                                        $chaine =  $this->translator->translate($this->containsWords($val));
+                                        $array[$key][$keyword][$keys] = '"'.$this->replaceWords($chaine).'",';
+                                    }
+                                }
+                                else{
+                                    $chaine =  $this->translator->translate($this->containsWords($item));
+                                    $array[$key][$keyword] = '"'.$this->replaceWords($chaine).'",';
+                                }
+                            }
+                        }
+                        else
+                        {
+                            $chaine =  $this->translator->translate($this->containsWords($value));
+                            $array[$key] = '"' .$this->replaceWords($chaine).'",';
+                        }
+                    }
+                    $content =  $this->replaceInArray($array);
+                    $this->makeDirectory($subdirectoryName.DIRECTORY_SEPARATOR.$lang);
+                    $filename = $subdirectoryName.DIRECTORY_SEPARATOR.$lang.DIRECTORY_SEPARATOR.substr(strtolower($fichier),0,-4) . self::EXT;
+                    $this->writeInPhpFile($filename,$content);
+                }
+            }
+        }
+    }
+
+
+    /***
+     * This translates a multi-associative array of data from a language to another
+     * @param string $from the start language
+     * @param array $to the arrival language
+     * @param array $files the arrival language
+     * @return void
+     * @throws ErrorException
+     * @example $tr->translate('./lang/en','./lang', $from, $to)
+     * @ $array the associative array
+     */
+    public function translateExept(string $from, array $to, array $listes): void
+    {
+        $subdirectoryName = base_path(self::LANG_DIRECTORY);
+        (new Filesystem)->copyDirectory(base_path(self::LANG_DIRECTORY.DIRECTORY_SEPARATOR.$from), base_path(self::TEST_DIRECTORY));
+        $directoryName = base_path(self::TEST_DIRECTORY);
+        foreach ($to as $lang) {
+            $this->translator->setSource($from);
+            $this->translator->setTarget($lang);
+            $data = [];
+            $scandir = scandir($directoryName);
+            foreach($scandir as $fichier){
+                if($fichier != '.' and $fichier != '..' and !in_array($fichier, $listes)){
+                    $array = require $directoryName.'\\'.$fichier;
+                    foreach ($array as $key => $value)
+                    {
+                        if (is_array($value))
+                        {
+                            foreach ($value as $keyword => $item) {
+                                if(is_array($item))
+                                {
+                                    foreach ($item as $keys => $val){
+                                        $chaine =  $this->translator->translate($this->containsWords($val));
+                                        $array[$key][$keyword][$keys] = '"'.$this->replaceWords($chaine).'",';
+                                    }
+                                }
+                                else{
+                                    $chaine =  $this->translator->translate($this->containsWords($item));
+                                    $array[$key][$keyword] = '"'.$this->replaceWords($chaine).'",';
+                                }
+                            }
+                        }
+                        else
+                        {
+                            $chaine =  $this->translator->translate($this->containsWords($value));
+                            $array[$key] = '"' .$this->replaceWords($chaine).'",';
+                        }
+                    }
+                    $content =  $this->replaceInArray($array);
+                    $this->makeDirectory($subdirectoryName.DIRECTORY_SEPARATOR.$lang);
+                    $filename = $subdirectoryName.DIRECTORY_SEPARATOR.$lang.DIRECTORY_SEPARATOR.substr(strtolower($fichier),0,-4) . self::EXT;
+                    $this->writeInPhpFile($filename,$content);
+                }
+            }
+        }
+    }
     /**
      * create a new directory if not exist
      * @param string $directoryName
