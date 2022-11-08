@@ -21,7 +21,7 @@ class AtproTranslateService
 
     public function __construct()
     {
-        $this->translator = $this->translator == null ?  new GoogleTranslate() : $this->translator;
+        $this->translator = $this->translator ?? new GoogleTranslate();
     }
 
     /***
@@ -44,7 +44,7 @@ class AtproTranslateService
             $data = [];
             $scandir = scandir($directoryName);
             foreach($scandir as $fichier){
-                if($fichier != '.' and $fichier != '..'){
+                if($fichier !== '.' && $fichier !== '..'){
                     $array = require $directoryName.'\\'.$fichier;
                     foreach ($array as $key => $value)
                     {
@@ -72,7 +72,7 @@ class AtproTranslateService
                     }
                     $content =  $this->replaceInArray($array);
                     $this->makeDirectory($subdirectoryName.DIRECTORY_SEPARATOR.$lang);
-                    $filename = $subdirectoryName.DIRECTORY_SEPARATOR.$lang.DIRECTORY_SEPARATOR.substr(strtolower($fichier),0,-4) . self::EXT;
+                    $filename = $subdirectoryName.DIRECTORY_SEPARATOR.$lang.DIRECTORY_SEPARATOR. strtolower(substr($fichier, 0, -4)) . self::EXT;
                     $this->writeInPhpFile($filename,$content);
                 }
             }
@@ -83,7 +83,7 @@ class AtproTranslateService
      * This translates a multi-associative array of data from a language to another
      * @param string $from the start language
      * @param array $to the arrival language
-     * @param array $files the arrival language
+     * @param array $listes
      * @return void
      * @throws ErrorException
      * @example $tr->translate('./lang/en','./lang', $from, $to)
@@ -100,7 +100,7 @@ class AtproTranslateService
             $data = [];
             $scandir = scandir($directoryName);
             foreach($listes as $fichier){
-                if($fichier != '.' and $fichier != '..'){
+                if($fichier !== '.' && $fichier !== '..'){
                     $array = require $directoryName.'\\'.$fichier;
                     foreach ($array as $key => $value)
                     {
@@ -128,7 +128,10 @@ class AtproTranslateService
                     }
                     $content =  $this->replaceInArray($array);
                     $this->makeDirectory($subdirectoryName.DIRECTORY_SEPARATOR.$lang);
-                    $filename = $subdirectoryName.DIRECTORY_SEPARATOR.$lang.DIRECTORY_SEPARATOR.substr(strtolower($fichier),0,-4) . self::EXT;
+                    $filename = $subdirectoryName.DIRECTORY_SEPARATOR.$lang.DIRECTORY_SEPARATOR. strtolower(substr($fichier, 0, -4)) . self::EXT;
+                    if(file_exists($filename)){
+                        (new Filesystem())->delete($filename);
+                    }
                     $this->writeInPhpFile($filename,$content);
                 }
             }
@@ -140,7 +143,7 @@ class AtproTranslateService
      * This translates a multi-associative array of data from a language to another
      * @param string $from the start language
      * @param array $to the arrival language
-     * @param array $files the arrival language
+     * @param array $listes
      * @return void
      * @throws ErrorException
      * @example $tr->translate('./lang/en','./lang', $from, $to)
@@ -157,7 +160,7 @@ class AtproTranslateService
             $data = [];
             $scandir = scandir($directoryName);
             foreach($scandir as $fichier){
-                if($fichier != '.' and $fichier != '..' and !in_array($fichier, $listes)){
+                if($fichier !== '.' and $fichier !== '..' && !in_array($fichier, $listes, true)){
                     $array = require $directoryName.'\\'.$fichier;
                     foreach ($array as $key => $value)
                     {
@@ -185,7 +188,7 @@ class AtproTranslateService
                     }
                     $content =  $this->replaceInArray($array);
                     $this->makeDirectory($subdirectoryName.DIRECTORY_SEPARATOR.$lang);
-                    $filename = $subdirectoryName.DIRECTORY_SEPARATOR.$lang.DIRECTORY_SEPARATOR.substr(strtolower($fichier),0,-4) . self::EXT;
+                    $filename = $subdirectoryName.DIRECTORY_SEPARATOR.$lang.DIRECTORY_SEPARATOR. strtolower(substr($fichier, 0, -4)) . self::EXT;
                     $this->writeInPhpFile($filename,$content);
                 }
             }
@@ -197,8 +200,8 @@ class AtproTranslateService
      */
     public function makeDirectory(string $directoryName): void
     {
-        if(!is_dir($directoryName)){
-            mkdir($directoryName);
+        if(!is_dir($directoryName) && !mkdir($directoryName) && !is_dir($directoryName)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $directoryName));
         }
     }
 
