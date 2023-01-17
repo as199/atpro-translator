@@ -63,7 +63,7 @@ It will generate translated files in respective folder `fr,it,es`
  | Options |                 Description                  |                                            Examples |
 |:--------|:--------------------------------------------:|----------------------------------------------------:|
 | `--e`   | Generate files for all languages without any | php artisan atpro:translate --e='user.php,test.php' |
-| `--f`   |       Generate files for specific path       | php artisan atpro:translate --e='user.php,test.php' |
+| `--f`   |       Generate files for specific path       | php artisan atpro:translate --f='user.php,test.php' |
 
 
 
