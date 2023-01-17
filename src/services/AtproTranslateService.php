@@ -37,6 +37,11 @@ class AtproTranslateService
      */
     public function translate(string $from, array $to): void
     {
+        $uname = explode(' ',  php_uname());
+        $separator = '\\';
+        if($uname[0] !== self::WINDOWS_OS){
+            $separator = '/';
+        }
         $subdirectoryName = base_path(self::LANG_DIRECTORY);
         (new Filesystem)->copyDirectory(base_path(self::LANG_DIRECTORY.DIRECTORY_SEPARATOR.$from), base_path(self::TEST_DIRECTORY));
         $directoryName = base_path(self::TEST_DIRECTORY);
