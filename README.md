@@ -18,12 +18,12 @@ To get started with Atpro-translator, use Composer to add the package to your pr
 ```
 ## Configuration
 
-After installing the `Atpro-translator` library, register the  `\Atpro\Translator\AtporServiceProvider::class` in your `config/app.php` configuration file:
+After installing the `Atpro-translator` library, register the  `\Atpro\Translator\AtproServiceProvider::class` in your `config/app.php` configuration file:
 
 ``` php
 'providers' => [
 
-        \Atpro\Translator\AtporServiceProvider::class,
+        \Atpro\Translator\AtproServiceProvider::class,
     ],
 ```
 Also, register the middleware in web middleware groups by simply adding the middleware class :
@@ -58,6 +58,13 @@ Run the command in terminal
 
 It will generate translated files in respective folder `fr,it,es`
 
+**OPTIONAL OPTIONS**:
+  
+ | Options |                 Description                  |                                            Examples |
+|:--------|:--------------------------------------------:|----------------------------------------------------:|
+| `--e`   | Generate files for all languages without any | php artisan atpro:translate --e='user.php,test.php' |
+| `--f`   |       Generate files for specific path       | php artisan atpro:translate --e='user.php,test.php' |
+
 
 
 **B. To generate views for translation**:
@@ -74,7 +81,7 @@ Run the command in terminal
    `fr,it,es`
 3. Click enter and wait for generate views translate
 
-It will generates a middleware, in controller, a routes file and a component containing the different options according to the chosen languages
+It will generate a middleware, in controller, a routes file and a component containing the different options according to the chosen languages
 
 You will also have a new component `<x-atpro::language> </x-atpro::language>`. You can use it in views.
 
