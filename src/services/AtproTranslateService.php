@@ -16,12 +16,14 @@ class AtproTranslateService
     private const EXT ='.php';
     private const TEST_DIRECTORY ='lang/test';
     private const LANG_DIRECTORY ='lang';
+    private const WINDOWS_OS = "Windows"
+    ;
 
 
 
     public function __construct()
     {
-        $this->translator = $this->translator == null ?  new GoogleTranslate() : $this->translator;
+        $this->translator = $this->translator ?? new GoogleTranslate();
     }
 
     /***
@@ -35,6 +37,11 @@ class AtproTranslateService
      */
     public function translate(string $from, array $to): void
     {
+        $uname =  explode(' ',  php_uname());
+        $separator ='\\';
+        if($uname[0] !== self::WINDOWS_OS){
+            $separator ='/';
+        }
         $subdirectoryName = base_path(self::LANG_DIRECTORY);
         (new Filesystem)->copyDirectory(base_path(self::LANG_DIRECTORY.DIRECTORY_SEPARATOR.$from), base_path(self::TEST_DIRECTORY));
         $directoryName = base_path(self::TEST_DIRECTORY);
@@ -44,8 +51,8 @@ class AtproTranslateService
             $data = [];
             $scandir = scandir($directoryName);
             foreach($scandir as $fichier){
-                if($fichier != '.' and $fichier != '..'){
-                    $array = require $directoryName.'\\'.$fichier;
+                if($fichier !== '.' && $fichier !== '..'){
+                    $array = require $directoryName.$separator.$fichier;
                     foreach ($array as $key => $value)
                     {
                         if (is_array($value))
@@ -72,7 +79,7 @@ class AtproTranslateService
                     }
                     $content =  $this->replaceInArray($array);
                     $this->makeDirectory($subdirectoryName.DIRECTORY_SEPARATOR.$lang);
-                    $filename = $subdirectoryName.DIRECTORY_SEPARATOR.$lang.DIRECTORY_SEPARATOR.substr(strtolower($fichier),0,-4) . self::EXT;
+                    $filename = $subdirectoryName.DIRECTORY_SEPARATOR.$lang.DIRECTORY_SEPARATOR. strtolower(substr($fichier, 0, -4)) . self::EXT;
                     $this->writeInPhpFile($filename,$content);
                 }
             }
@@ -85,8 +92,8 @@ class AtproTranslateService
      */
     public function makeDirectory(string $directoryName): void
     {
-        if(!is_dir($directoryName)){
-            mkdir($directoryName);
+        if(!is_dir($directoryName) && !mkdir($directoryName) && !is_dir($directoryName)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $directoryName));
         }
     }
 
