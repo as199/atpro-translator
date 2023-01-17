@@ -29,7 +29,7 @@ After installing the `Atpro-translator` library, register the  `\Atpro\Translato
 Also, register the middleware in web middleware groups by simply adding the middleware class :
 
 ```php
-App\Htpp\Midlleware\AtproTranslateMiddleware::class,
+AtproTranslateMiddleware::class,
 ```
 into the `$middlewareGroups` of your `app/Http/Kernel.php` file.
 
